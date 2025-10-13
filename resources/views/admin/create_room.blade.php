@@ -1,82 +1,149 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head> 
     @include('admin.css')
+    <style>
+      .form-section {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
 
-    <style type="text/css">
-        label
-        {
-            display: inline-block;
-            width: 200px;
-        }
+      .form-section h1 {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        text-align: center;
+        color: #333;
+      }
 
-        .div_deg
-        {
-            padding-top: 30px;
-        }
+      .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+      }
 
-        .div_center
-        {
-            text-align: center;
-            padding-top: 40px;
-        }
+      label {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 6px;
+        color: #444;
+      }
 
+      input[type="text"],
+      input[type="number"],
+      select,
+      textarea,
+      input[type="file"] {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+
+      textarea {
+        resize: vertical;
+      }
+
+      .btn-submit {
+        display: block;
+        width: 100%;
+        font-weight: 600;
+        padding: 10px;
+        border-radius: 6px;
+      }
     </style>
   </head>
+
   <body>
-  @include('admin.header')
-  <div class="d-flex align-items-stretch">
+    @include('admin.header')
+
+    <div class="d-flex align-items-stretch">
       @include('admin.sidebar')
- <div class="page-content">
-    <div class="page-header">
-        <div class="container-fluid">
 
-                <div class="div_center">
+      <div class="page-content">
+        <div class="page-header">
+          <div class="container-fluid">
 
-                <h1 style="font-size: 30px; font-weight: bold;">Tambah Ruangan</h1>
-        
-                            <form action="{{url('add_room')}}" method="Post" enctype="multipart/form-data">
+            <div class="form-section">
+              <h1>Tambah Ruangan</h1>
 
-                            @csrf
-                                    <div class="div_deg">
-                                        <label for="">Nama Ruangan</label>
-                                        <input type="text" name="room_title">
-                                    </div>
+              <form action="{{ url('add_room') }}" method="POST" enctype="multipart/form-data">
+                @csrf
 
-                                    <div class="div_deg">
-                                        <label for="">Deskripsi</label>
-                                        
-
-                                        <textarea name="description" id=""></textarea>
-                                    </div>
-
-                                    <div class="div_deg">
-                                        <label for="">Tipe Ruangan</label>
-                                        <select name="room_type" id="">
-                                            <option value="aula">Aula</option>
-                                            <option value="ruangrapat">Ruang Rapat</option>
-                                            <option value="ruangserbaguna">Ruang Serba Guna</option>
-
-                                        </select>
-                                    </div>
-
-                                    
-
-                                    <div class="div_deg">
-                                        <label for="">Upload Gambar</label>
-                                        <input type="file" name="image">
-                                    </div>
-
-                                    <div class="div_deg">
-                                        <input class="btn btn-primary"type="submit"value="Add Room">
-                                    </div>
-                                </form>
+                {{-- Nama Ruangan --}}
+                <div class="form-group">
+                  <label for="room_title">Nama Ruangan</label>
+                  <input type="text" id="room_title" name="room_title" required>
                 </div>
-        </div>
-    </div>
- </div>
-        
 
-        @include('admin.footer')
+                {{-- Kapasitas --}}
+                <div class="form-group">
+                  <label for="capacity">Kapasitas (Orang)</label>
+                  <input type="number" id="capacity" name="capacity" min="1" required>
+                </div>
+
+                {{-- Fasilitas --}}
+<div class="form-group">
+  <label for="facilities">Fasilitas</label>
+  <select id="facilities" name="facilities[]" multiple="multiple" class="form-control select2">
+    <option value="AC">AC</option>
+    <option value="Proyektor">Proyektor</option>
+    <option value="Sound System">Sound System</option>
+    <option value="WiFi">WiFi</option>
+    <option value="Mic Wireless">Mic </option>
+    <option value="Kursi dan Meja">Kursi</option>
+    <option value="Kursi dan Meja">Meja</option>
+    <option value="Smart TV">Screen</option>
+    
+  </select>
+</div>
+
+
+                {{-- Upload Gambar --}}
+                <div class="form-group">
+                  <label for="image">Upload Gambar</label>
+                  <input type="file" id="image" name="image">
+                </div>
+
+                {{-- Tombol Submit --}}
+                <button type="submit" class="btn btn-primary btn-submit">Tambah Ruangan</button>
+              </form>
+            </div>
+
+            {{-- SweetAlert2 Notifikasi --}}
+            @if(session('message'))
+              <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+              <script>
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Berhasil!',
+                  text: "{{ session('message') }}",
+                  timer: 2000,
+                  showConfirmButton: false
+                });
+                
+              </script>
+            @endif
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    @include('admin.footer')
+    <!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+  $(document).ready(function() {
+      $('.select2').select2({
+          placeholder: "Pilih fasilitas ruangan",
+          allowClear: true
+      });
+  });
+</script>
+
   </body>
 </html>

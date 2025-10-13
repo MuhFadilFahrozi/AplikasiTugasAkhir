@@ -5,26 +5,39 @@
                   <div class="titlepage">
                      <h2>Hubungi Kami</h2>
                   </div>
+
+
+                  @if(session()->has('message'))
+                     <div class="alert alert-success">
+                        {{ session()->get('message') }}
+                     </div>
+                  @endif
+
+
+
                </div>
             </div>
             <div class="row">
                <div class="col-md-6">
-                  <form id="request" class="main_form">
+                  <form id="request" class="main_form" action="{{ url('contact') }}" method="POST">
+
+                     
+                     @csrf
                      <div class="row">
                         <div class="col-md-12 ">
-                           <input class="contactus" placeholder="Name" type="type" name="Name"> 
+                           <input class="contactus" placeholder="Name" type="type" name="name" @if(Auth::id())value="{{Auth::user()->name}}" @endif> 
                         </div>
                         <div class="col-md-12">
-                           <input class="contactus" placeholder="Email" type="type" name="Email"> 
+                           <input class="contactus" placeholder="Email" type="email" name="email"@if(Auth::id())value="{{Auth::user()->email}}" @endif> 
                         </div>
                         <div class="col-md-12">
-                           <input class="contactus" placeholder="Phone Number" type="type" name="Phone Number">                          
+                           <input class="contactus" placeholder="Phone Number" type="number" name="phone" @if(Auth::id())value="{{Auth::user()->phone}}" @endif>                          
                         </div>
                         <div class="col-md-12">
-                           <textarea class="textarea" placeholder="Message" type="type" Message="Name">Message</textarea>
+                           <textarea class="textarea" placeholder="Silahkan Ketik Pesan" type="type" name="message" required></textarea>
                         </div>
                         <div class="col-md-12">
-                           <button class="send_btn">Kirim</button>
+                           <button type ="submit" class="send_btn">Kirim</button>
                         </div>
                      </div>
                   </form>

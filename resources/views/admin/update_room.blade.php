@@ -1,91 +1,161 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    
-  <base href="/public">
+    <base href="/public">
     @include('admin.css')
 
-    <style type="text/css">
-        label
-        {
-            display: inline-block;
-            width: 200px;
-        }
+    <style>
+      .form-section {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
 
-        .div_deg
-        {
-            padding-top: 30px;
-        }
+      .form-section h1 {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        text-align: center;
+        color: #333;
+      }
 
-        .div_center
-        {
-            text-align: center;
-            padding-top: 40px;
-        }
+      .form-group {
+        margin-bottom: 20px;
+      }
 
+      label {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 6px;
+        color: #444;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      select,
+      textarea,
+      input[type="file"] {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+
+      textarea {
+        resize: vertical;
+      }
+
+      .btn-submit {
+        display: block;
+        width: 100%;
+        font-weight: 600;
+        padding: 10px;
+        border-radius: 6px;
+      }
+
+      img.preview {
+        display: block;
+        margin: 10px auto;
+        border-radius: 8px;
+      }
     </style>
   </head>
+
   <body>
-  @include('admin.header')
-  <div class="d-flex align-items-stretch">
+    @include('admin.header')
+
+    <div class="d-flex align-items-stretch">
       @include('admin.sidebar')
- <div class="page-content">
-    <div class="page-header">
-        <div class="container-fluid">
 
-                <div class="div_center">
+      <div class="page-content">
+        <div class="page-header">
+          <div class="container-fluid">
 
-                <h1 style="font-size: 30px; font-weight: bold;">Edit Ruangan</h1>
-        
-                            <form action="{{url('edit_room',$data->id)}}" method="Post" enctype="multipart/form-data">
+            <div class="form-section">
+              <h1>Edit Ruangan</h1>
 
-                            @csrf
-                                    <div class="div_deg">
-                                        <label for="">Nama Ruangan</label>
-                                        <input type="text" name="room_title" value="{{$data->room_title}}">
-                                    </div>
+              <form action="{{ url('edit_room', $data->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
 
-                                    <div class="div_deg">
-                                        <label for="">Deskripsi</label>
-                                        
-
-                                        <textarea name="description" id="">{{$data->description}}
-                                        </textarea>
-                                    </div>
-
-                                    <div class="div_deg">
-                                        <label for="">Tipe Ruangan</label>
-                                        <select name="room_type" id="">
-
-                                            <option selected value="">{{$data->room_type}}</option>
-
-                                            <option value="aula">Aula</option>
-                                            <option value="ruangrapat">Ruang Rapat</option>
-                                            <option value="ruangserbaguna">Ruang Serba Guna</option>
-
-                                        </select>
-                                    </div class="div_deg">
-
-                                    <div class="div_deg" >
-                                        <label for="">Gambar Saat Ini</label>
-                                        <img style="margin: auto" width="100" src="/room/{{$data->image}}">
-                                    </div>
-
-                                    <div class="div_deg">
-                                        <label for="">Upload Gambar</label>
-                                        <input type="file" name="image">
-                                    </div>
-
-                                    <div class="div_deg">
-                                        <input class="btn btn-primary"type="submit"value="Update Room">
-                                    </div>
-                                </form>
+                {{-- Nama Ruangan --}}
+                <div class="form-group">
+                  <label for="room_title">Nama Ruangan</label>
+                  <input type="text" id="room_title" name="room_title" value="{{ $data->room_title }}" required>
                 </div>
-        </div>
-    </div>
- </div>
-        
 
-        @include('admin.footer')
+                {{-- Kapasitas --}}
+                <div class="form-group">
+                  <label for="capacity">Kapasitas (Orang)</label>
+                  <input type="number" id="capacity" name="capacity" min="1" value="{{ $data->capacity }}">
+                </div>
+
+<div class="form-group">
+  <label for="facilities">Fasilitas</label>
+  <select id="facilities" name="facilities[]" multiple="multiple" class="form-control select2">
+    <option value="AC">AC</option>
+    <option value="Proyektor">Proyektor</option>
+    <option value="Sound System">Sound System</option>
+    <option value="WiFi">WiFi</option>
+    <option value="Mic Wireless">Mic </option>
+    <option value="Kursi dan Meja">Kursi</option>
+    <option value="Kursi dan Meja">Meja</option>
+    <option value="Smart TV">Screen</option>
+    
+  </select>
+</div>
+
+
+
+                {{-- Gambar Saat Ini --}}
+                <div class="form-group">
+                  <label>Gambar Saat Ini</label>
+                  <img class="preview" src="/room/{{ $data->image }}" width="150">
+                </div>
+
+                {{-- Upload Gambar Baru --}}
+                <div class="form-group">
+                  <label for="image">Upload Gambar Baru (opsional)</label>
+                  <input type="file" id="image" name="image">
+                </div>
+
+                {{-- Tombol Update --}}
+                <button type="submit" class="btn btn-primary btn-submit">Update Ruangan</button>
+              </form>
+            </div>
+
+            {{-- SweetAlert Notifikasi --}}
+            @if(session('message'))
+              <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+              <script>
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Berhasil!',
+                  text: "{{ session('message') }}",
+                  timer: 2000,
+                  showConfirmButton: false
+                });
+              </script>
+            @endif
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    @include('admin.footer')
+    <!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+  $(document).ready(function() {
+      $('.select2').select2({
+          placeholder: "Pilih fasilitas ruangan",
+          allowClear: true
+      });
+  });
+</script>
+
   </body>
 </html>

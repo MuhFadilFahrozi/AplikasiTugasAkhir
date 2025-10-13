@@ -14,7 +14,20 @@ class Booking extends Model
         'name',
         'email',
         'phone',
+        'participants',
         'start_date',
         'end_date',
+        'start_time',
+        'end_time',
+        
     ];
+
+    /**
+     * Relasi ke tabel rooms
+     * Setiap booking milik satu ruangan
+     */
+    public function room()
+    {
+        return $this->belongsTo(Room::class, 'room_id');
+    }
 }
