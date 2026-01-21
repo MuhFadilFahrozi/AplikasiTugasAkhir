@@ -16,7 +16,6 @@ route::get('/home',[AdminController::class,'index'])->name('home');
 
 route::get('/create_room',[AdminController::class, 'create_room']);
 
-route::post('/add_room',[AdminController::class, 'add_room']);
 route::get('/view_room',[AdminController::class, 'view_room']);
 
 route::get('/room_delete/{id}',[AdminController::class, 'room_delete']);
@@ -54,3 +53,7 @@ Route::get('/room-bookings/{roomId}', [AdminController::class, 'getRoomBookings'
 Route::get('/admin/export-booking-pdf', [HomeController::class, 'exportPDF'])->name('booking.exportPDF');
 Route::get('/export-jadwal/{id}', [App\Http\Controllers\HomeController::class, 'exportJadwalPDF'])
     ->name('export.jadwal.pdf');
+Route::get('/test-pdf/{id}', function($id) {
+    $data = App\Models\Booking::with('room')->findOrFail($id);
+    return view('home.cetak_jadwal_pdf', ['data' => $data]);
+});

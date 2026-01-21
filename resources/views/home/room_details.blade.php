@@ -215,6 +215,12 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="nim" class="form-label">Nim atau Npp</label>
+                            <input type="text" name="nim" id="nim" class="form-control" 
+                                @if(Auth::id()) value="{{Auth::user()->nim}}" @endif required>
+                        </div>
+
+                        <div class="form-group">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" name="email" id="email" class="form-control"
                                 @if(Auth::id()) value="{{Auth::user()->email}}" @endif required>

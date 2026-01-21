@@ -66,6 +66,7 @@ class HomeController extends Controller
     $data = new Booking;
     $data->room_id = $id;
     $data->name = $request->name;
+    $data->nim = $request->nim;
     $data->email = $request->email;
     $data->phone = $request->phone;
     $data->participants = $request->participants;
@@ -91,6 +92,7 @@ class HomeController extends Controller
         // Validasi data form
         $request->validate([
             'name'    => 'required|string|max:255',
+            'nim'   => 'required|varchar|max:255',
             'email'   => 'required|email|max:255',
             'phone'   => 'required|string|max:20',
             'message' => 'required|string',
@@ -99,6 +101,7 @@ class HomeController extends Controller
         // Simpan ke database
         $contact = new Contact;
         $contact->name    = $request->name;
+        $contact->nim    = $request->nim;
         $contact->email   = $request->email;
         $contact->phone   = $request->phone;
         $contact->message = $request->message;
@@ -191,9 +194,9 @@ public function getRoomBookings($id)
         };
 
         return [
-            'title' => $booking->name,
-            'start' => $booking->start_date,
-            'end'   => date('Y-m-d', strtotime($booking->end_date . ' +1 day')),
+            'title' => $booking->name, // tampilkan nama peminjam di kalender
+            'start' => $booking->start_date . 'T' . $booking->start_time, // format lengkap
+            'end'   => $booking->end_date . 'T' . $booking->end_time,
             'color' => $color,
             'textColor' => 'white',
             'extendedProps' => [
@@ -207,17 +210,24 @@ public function getRoomBookings($id)
     return response()->json($events);
 }
 
+
 public function exportJadwalPDF($id)
 {
     $data = Booking::with('room')->findOrFail($id);
 
-    // Pastikan data ditemukan
     if (!$data) {
         abort(404, 'Data peminjaman tidak ditemukan');
     }
 
-    $pdf = Pdf::loadView('home.cetak_jadwal_pdf', ['data' => $data]);
-    return $pdf->download('jadwal_'.$data->id.'.pdf');
+    $pdf = Pdf::loadView('home.cetak_jadwal_pdf', ['data' => $data])
+        ->setPaper('a4', 'portrait')
+        ->setOptions([
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true,
+            'defaultFont' => 'sans-serif'
+        ]);
+    
+    return $pdf->download('jadwal_peminjaman_'.$data->id.'.pdf');
 }
 
 

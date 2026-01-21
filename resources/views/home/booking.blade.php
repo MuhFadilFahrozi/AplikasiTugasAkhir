@@ -132,7 +132,8 @@
         <thead>
           <tr>
             <th>Id Ruangan</th>
-            <th>Nama Customer</th>
+            <th>Nama </th>
+            <th>Nim atau Npp</th>
             <th>Email</th>
             <th>No Telpon</th>
             <th>Jumlah Peserta</th>
@@ -152,6 +153,7 @@
             <tr>
               <td>{{ $item->room_id }}</td>
               <td>{{ $item->name }}</td>
+              <td>{{ $item->nim }}</td>
               <td>{{ $item->email }}</td>
               <td>{{ $item->phone }}</td>
               <td>{{ $item->participants ?? '-' }}</td>
