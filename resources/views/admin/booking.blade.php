@@ -174,6 +174,137 @@
         opacity: 0.9;
       }
 
+      /* Modal Styles */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        animation: modalSlideIn 0.3s ease-out;
+      }
+
+      @keyframes modalSlideIn {
+        from {
+          transform: translateY(-50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f0f0f0;
+      }
+
+      .modal-header h3 {
+        margin: 0;
+        color: #e74c3c;
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 28px;
+        color: #999;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.3s;
+      }
+
+      .modal-close:hover {
+        color: #333;
+      }
+
+      .modal-body {
+        margin-bottom: 20px;
+      }
+
+      .modal-body label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #2c3e50;
+      }
+
+      .modal-body textarea {
+        width: 100%;
+        min-height: 120px;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-family: "Poppins", sans-serif;
+        font-size: 14px;
+        resize: vertical;
+        transition: border-color 0.3s;
+      }
+
+      .modal-body textarea:focus {
+        outline: none;
+        border-color: #e74c3c;
+        box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.15);
+      }
+
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+
+      .modal-footer .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+
+      .booking-info {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+      }
+
+      .booking-info p {
+        margin: 5px 0;
+        font-size: 14px;
+        color: #555;
+      }
+
+      .booking-info strong {
+        color: #2c3e50;
+      }
+
       /* Responsive */
       @media (max-width: 992px) {
         .table_deg th,
@@ -213,6 +344,14 @@
 
         .filter-group, .search-box {
           min-width: 100%;
+        }
+
+        .modal-content {
+          padding: 20px;
+        }
+
+        .modal-header h3 {
+          font-size: 18px;
         }
       }
     </style>
@@ -356,6 +495,7 @@
               <tbody id="bookingTableBody">
                 @foreach($data as $booking)
                   <tr class="booking-row" 
+                      data-booking-id="{{ $booking->id }}"
                       data-name="{{ strtolower($booking->name) }}"
                       data-nim="{{ $booking->nim }}"
                       data-email="{{ strtolower($booking->email) }}"
@@ -365,8 +505,11 @@
                       }}"
                       data-status-text="{{ $booking->status }}"
                       data-room="{{ strtolower($booking->room->room_title ?? '') }}"
+                      data-room-title="{{ $booking->room->room_title ?? '' }}"
                       data-start-date="{{ $booking->start_date }}"
-                      data-end-date="{{ $booking->end_date }}">
+                      data-end-date="{{ $booking->end_date }}"
+                      data-start-time="{{ $booking->start_time }}"
+                      data-end-time="{{ $booking->end_time }}">
                     <td>{{ $booking->room_id }}</td>
                     <td>{{ $booking->name }}</td>
                     <td>{{ $booking->nim }}</td>
@@ -378,11 +521,11 @@
 
                     <td>
                       @if($booking->status == 'Di Setujui')
-                        <span class="status approved">Di Setujui</span>
+                        <span class="status approved">✓ Di Setujui</span>
                       @elseif($booking->status == 'Di Tolak')
-                        <span class="status rejected">Di Tolak</span>
+                        <span class="status rejected">✗ Di Tolak</span>
                       @else
-                        <span class="status waiting">Menunggu Persetujuan</span>
+                        <span class="status waiting">⏳ Menunggu</span>
                       @endif
                     </td>
 
@@ -399,8 +542,27 @@
                          <i class="bi bi-trash"></i> Hapus
                       </a>
                       <div class="mt-2">
-                        <a class="btn btn-success btn-sm" href="{{ url('approve_book', $booking->id) }}">Setuju</a>
-                        <a class="btn btn-warning btn-sm" href="{{ url('reject_book', $booking->id) }}">Tolak</a>
+                        @if($booking->status == 'waiting')
+                          <!-- Approve langsung -->
+                          <a class="btn btn-success btn-sm" 
+                             href="{{ url('approve_book', $booking->id) }}"
+                             onclick="return confirm('Setujui peminjaman ini?')">
+                            <i class="bi bi-check-circle"></i> Setuju
+                          </a>
+                          <!-- Reject dengan modal -->
+                          <button class="btn btn-warning btn-sm reject-btn" 
+                                  data-booking-id="{{ $booking->id }}"
+                                  data-customer-name="{{ $booking->name }}"
+                                  data-room-title="{{ $booking->room->room_title ?? '-' }}"
+                                  data-start-date="{{ $booking->start_date }}"
+                                  data-end-date="{{ $booking->end_date }}">
+                            <i class="bi bi-x-circle"></i> Tolak
+                          </button>
+                        @else
+                          <span class="text-muted" style="font-size: 12px;">
+                            {{ $booking->status }}
+                          </span>
+                        @endif
                       </div>
                     </td>
                   </tr>
@@ -414,10 +576,121 @@
       <!-- End Page Content -->
     </div>
 
+    <!-- Rejection Modal -->
+    <div class="modal-overlay" id="rejectModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>⚠️ Tolak Peminjaman Ruangan</h3>
+          <button class="modal-close" id="closeModal">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+          <div class="booking-info" id="bookingInfo">
+            <!-- Will be filled by JavaScript -->
+          </div>
+          
+          <form id="rejectForm" method="POST">
+            @csrf
+            <label for="rejectNote">Alasan Penolakan <span style="color: red;">*</span></label>
+            <textarea 
+              id="rejectNote" 
+              name="rejection_note" 
+              placeholder="Contoh: Ruangan sudah dibooking di tanggal tersebut, atau kegiatan tidak sesuai dengan kebijakan kampus..."
+              required
+            ></textarea>
+            <small style="color: #666; display: block; margin-top: 5px;">
+              Catatan ini akan dikirimkan ke email peminjam
+            </small>
+          </form>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelReject">Batal</button>
+          <button type="button" class="btn btn-danger" id="confirmReject">
+            <i class="bi bi-x-circle"></i> Tolak Peminjaman
+          </button>
+        </div>
+      </div>
+    </div>
+
     @include('admin.footer')
 
     <script>
+      // ==========================================
+      // REJECTION MODAL FUNCTIONALITY
+      // ==========================================
       document.addEventListener('DOMContentLoaded', function() {
+        const rejectModal = document.getElementById('rejectModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const cancelRejectBtn = document.getElementById('cancelReject');
+        const confirmRejectBtn = document.getElementById('confirmReject');
+        const rejectForm = document.getElementById('rejectForm');
+        const rejectNote = document.getElementById('rejectNote');
+        const bookingInfo = document.getElementById('bookingInfo');
+        const rejectButtons = document.querySelectorAll('.reject-btn');
+
+        let currentBookingId = null;
+
+        // Open modal when reject button clicked
+        rejectButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            currentBookingId = this.getAttribute('data-booking-id');
+            const customerName = this.getAttribute('data-customer-name');
+            const roomTitle = this.getAttribute('data-room-title');
+            const startDate = this.getAttribute('data-start-date');
+            const endDate = this.getAttribute('data-end-date');
+
+            // Fill booking info
+            bookingInfo.innerHTML = `
+              <p><strong>Nama Peminjam:</strong> ${customerName}</p>
+              <p><strong>Ruangan:</strong> ${roomTitle}</p>
+              <p><strong>Tanggal:</strong> ${startDate} s/d ${endDate}</p>
+            `;
+
+            // Clear previous note
+            rejectNote.value = '';
+
+            // Show modal
+            rejectModal.classList.add('active');
+          });
+        });
+
+        // Close modal functions
+        function closeModal() {
+          rejectModal.classList.remove('active');
+          currentBookingId = null;
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        cancelRejectBtn.addEventListener('click', closeModal);
+
+        // Close modal when clicking outside
+        rejectModal.addEventListener('click', function(e) {
+          if (e.target === rejectModal) {
+            closeModal();
+          }
+        });
+
+        // Confirm rejection
+        confirmRejectBtn.addEventListener('click', function() {
+          if (rejectNote.value.trim() === '') {
+            alert('Harap isi alasan penolakan!');
+            rejectNote.focus();
+            return;
+          }
+
+          if (confirm('Yakin ingin menolak peminjaman ini?')) {
+            // Set form action
+            rejectForm.action = `{{ url('reject_book') }}/${currentBookingId}`;
+            
+            // Submit form
+            rejectForm.submit();
+          }
+        });
+
+        // ==========================================
+        // FILTER FUNCTIONALITY
+        // ==========================================
         const searchInput = document.getElementById('searchInput');
         const statusFilter = document.getElementById('statusFilter');
         const roomFilter = document.getElementById('roomFilter');
@@ -437,15 +710,6 @@
         // Quick date filter buttons
         const quickFilterButtons = document.querySelectorAll('[data-days]');
 
-        // Debug: Log all statuses on page load
-        console.log('=== DEBUG INFO ===');
-        bookingRows.forEach((row, index) => {
-          console.log(`Row ${index}:`, {
-            statusType: row.getAttribute('data-status-type'),
-            statusText: row.getAttribute('data-status-text')
-          });
-        });
-
         // Initialize statistics
         updateStatistics();
 
@@ -456,14 +720,6 @@
           const roomValue = roomFilter.value.toLowerCase().trim();
           const startDateValue = startDate.value;
           const endDateValue = endDate.value;
-
-          console.log('Filter applied:', {
-            search: searchTerm,
-            status: statusValue,
-            room: roomValue,
-            startDate: startDateValue,
-            endDate: endDateValue
-          });
 
           let visibleCount = 0;
 
@@ -482,7 +738,7 @@
                               nim.includes(searchTerm) || 
                               email.includes(searchTerm);
 
-            // Status matching - PERBAIKAN UTAMA
+            // Status matching
             let matchesStatus = !statusValue || statusType === statusValue;
 
             // Room matching
@@ -532,8 +788,6 @@
           waitingBookings.textContent = waiting;
           approvedBookings.textContent = approved;
           rejectedBookings.textContent = rejected;
-
-          console.log('Statistics:', { total, waiting, approved, rejected });
         }
 
         // Quick date filter

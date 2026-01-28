@@ -145,11 +145,19 @@ class AdminController extends Controller
         return redirect()->back()->with('message', 'Booking telah disetujui!');
     }
 
-    public function reject_book($id)
+
+    public function reject_book(Request $request, $id)
     {
         $booking = Booking::findOrFail($id);
         $booking->status = 'Di Tolak';
+        
+
+        if ($request->has('rejection_note')) {
+            $booking->admin_notes = $request->input('rejection_note');
+        }
+        
         $booking->save();
+
 
         return redirect()->back()->with('message', 'Booking telah ditolak!');
     }
@@ -159,5 +167,15 @@ class AdminController extends Controller
     {
         $data = Contact::all();
         return view('admin.all_messages', compact('data'));
+    }
+
+    // 🔹 Debug Routes (Optional - bisa dihapus di production)
+    public function listRoutes()
+    {
+        $routes = \Route::getRoutes()->getRoutesByName();
+        return response()->json([
+            'reject_book_route' => route('reject_book', ['id' => 'test']),
+            'available_routes' => array_keys($routes)
+        ]);
     }
 }

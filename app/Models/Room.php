@@ -15,4 +15,9 @@ class Room extends Model
         'capacity',
         'facilities',
     ];
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'room_id');
+    }
 }

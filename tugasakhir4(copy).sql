@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 22, 2025 at 08:17 AM
--- Server version: 8.0.30
+-- Generation Time: Jan 28, 2026 at 12:14 PM
+-- Server version: 5.7.39
 -- PHP Version: 8.3.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -28,18 +28,19 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `bookings` (
-  `id` bigint UNSIGNED NOT NULL,
-  `room_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `room_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nim` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `participants` int DEFAULT NULL,
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'waiting',
-  `start_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `end_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `start_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `end_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `participants` int(11) DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'waiting',
+  `admin_notes` text COLLATE utf8mb4_unicode_ci,
+  `start_date` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `end_date` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `start_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `end_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -48,15 +49,21 @@ CREATE TABLE `bookings` (
 -- Dumping data for table `bookings`
 --
 
-INSERT INTO `bookings` (`id`, `room_id`, `name`, `nim`, `email`, `phone`, `participants`, `status`, `start_date`, `end_date`, `start_time`, `end_time`, `created_at`, `updated_at`) VALUES
-(11, '13', 'user1', NULL, 'user1@gmail.com', '123123432', NULL, 'Di Setujui', '2025-07-18', '2025-07-18', '09:00', '11:00', '2025-07-17 18:57:27', '2025-07-17 18:59:26'),
-(13, '18', 'user1', NULL, 'user1@gmail.com', '123123432', NULL, 'waiting', '2025-10-09', '2025-10-09', '11:09', '13:09', '2025-10-08 21:09:45', '2025-10-08 21:09:45'),
-(14, '9', 'user1', NULL, 'user1@gmail.com', '123123432', 50, 'waiting', '2025-10-14', '2025-10-15', '03:29', '05:29', '2025-10-13 13:29:12', '2025-10-13 13:29:12'),
-(15, '9', 'user1', NULL, 'user1@gmail.com', '123123432', 50, 'waiting', '2025-10-16', '2025-10-16', '11:33', '13:33', '2025-10-13 20:33:38', '2025-10-13 20:33:38'),
-(16, '9', 'user2', NULL, 'user2@gmail.com', '1233214321', 44, 'Di Tolak', '2025-10-24', '2025-10-24', '10:47', '12:47', '2025-10-13 20:47:39', '2025-10-13 20:54:05'),
-(17, '9', 'user1', NULL, 'user1@gmail.com', '123123432', 35, 'Di Setujui', '2025-10-17', '2025-10-17', '10:59', '12:59', '2025-10-13 20:59:47', '2025-10-13 21:00:35'),
-(18, '9', 'Muh Fadil Fahrozi', 'a11.2020.12968', 'fadilfahrozi1945@gmail.com', '081930953014', 40, 'waiting', '2025-10-23', '2025-10-23', '15:19', '17:19', '2025-10-22 00:19:35', '2025-10-22 00:19:35'),
-(19, '9', 'Muh Fadil Fahrozi', 'a11.2020.12968', 'fadilfahrozi1945@gmail.com', '081930953014', 50, 'waiting', '2025-10-23', '2025-10-23', '17:51', '18:51', '2025-10-22 00:51:05', '2025-10-22 00:51:05');
+INSERT INTO `bookings` (`id`, `room_id`, `name`, `nim`, `email`, `phone`, `participants`, `status`, `admin_notes`, `start_date`, `end_date`, `start_time`, `end_time`, `created_at`, `updated_at`) VALUES
+(11, '13', 'user1', NULL, 'user1@gmail.com', '123123432', NULL, 'Di Setujui', NULL, '2025-07-18', '2025-07-18', '09:00', '11:00', '2025-07-17 18:57:27', '2025-07-17 18:59:26'),
+(13, '18', 'user1', NULL, 'user1@gmail.com', '123123432', NULL, 'Di Setujui', NULL, '2025-10-09', '2025-10-09', '11:09', '13:09', '2025-10-08 21:09:45', '2026-01-21 12:32:31'),
+(14, '9', 'user1', NULL, 'user1@gmail.com', '123123432', 50, 'waiting', NULL, '2025-10-14', '2025-10-15', '03:29', '05:29', '2025-10-13 13:29:12', '2025-10-13 13:29:12'),
+(15, '9', 'user1', NULL, 'user1@gmail.com', '123123432', 50, 'waiting', NULL, '2025-10-16', '2025-10-16', '11:33', '13:33', '2025-10-13 20:33:38', '2025-10-13 20:33:38'),
+(16, '9', 'user2', NULL, 'user2@gmail.com', '1233214321', 44, 'Di Tolak', NULL, '2025-10-24', '2025-10-24', '10:47', '12:47', '2025-10-13 20:47:39', '2025-10-13 20:54:05'),
+(17, '9', 'user1', NULL, 'user1@gmail.com', '123123432', 35, 'Di Setujui', NULL, '2025-10-17', '2025-10-17', '10:59', '12:59', '2025-10-13 20:59:47', '2025-10-13 21:00:35'),
+(18, '9', 'Muh Fadil Fahrozi', 'a11.2020.12968', 'fadilfahrozi1945@gmail.com', '081930953014', 40, 'waiting', NULL, '2025-10-23', '2025-10-23', '15:19', '17:19', '2025-10-22 00:19:35', '2025-10-22 00:19:35'),
+(20, '13', 'arfian syarillah azhar', '123123', 'arvinazhar18@gmail.com', '0550016161613161', 30, 'waiting', NULL, '2025-12-12', '2025-12-12', '07:40', '14:50', '2025-12-11 06:28:19', '2025-12-11 06:28:19'),
+(21, '9', 'Muhamad Lutfil Hakim', '2345', 'shadowoll75@gmail.com', '081934675879', 45, 'waiting', NULL, '2025-12-25', '2025-12-27', '08:11', '22:12', '2025-12-11 08:12:16', '2025-12-11 08:12:16'),
+(22, '12', 'm. jodi munir', '234567', 'kamp72742@gmail.com', '089587476909', 12, 'Di Tolak', 'test', '2025-12-20', '2025-12-20', '01:31', '03:31', '2025-12-11 08:31:28', '2026-01-21 13:48:36'),
+(23, '12', 'm. jodi munir', '234567', 'kamp72742@gmail.com', '089587476909', 20, 'Di Setujui', NULL, '2025-12-18', '2025-12-19', '01:33', '02:33', '2025-12-11 08:33:28', '2026-01-21 13:08:18'),
+(25, '13', 'Muh Fadil Fahrozi', 'A11.2020.12968', 'fadilfahrozi1945@gmail.com', '081930953014', 21, 'Di Tolak', NULL, '2026-01-22', '2026-01-24', '07:24', '08:24', '2026-01-21 10:24:57', '2026-01-21 13:38:38'),
+(26, '11', 'Muh Fadil Fahrozi', 'A11.2020.12968', 'fadilfahrozi1945@gmail.com', '081930953014', 20, 'Di Tolak', 'test tolak', '2026-01-23', '2026-01-23', '08:49', '09:49', '2026-01-21 13:49:17', '2026-01-21 13:54:15'),
+(27, '18', 'Muh Fadil Fahrozi', 'A11.2020.12968', 'fadilfahrozi1945@gmail.com', '081930953014', 100, 'Di Setujui', NULL, '2026-01-24', '2026-01-24', '07:53', '09:53', '2026-01-21 13:53:53', '2026-01-21 13:54:20');
 
 -- --------------------------------------------------------
 
@@ -65,34 +72,10 @@ INSERT INTO `bookings` (`id`, `room_id`, `name`, `nim`, `email`, `phone`, `parti
 --
 
 CREATE TABLE `cache` (
-  `key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `expiration` int NOT NULL
+  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `cache`
---
-
-INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('laravel_cache_0c827637ba77c621d0421ac8086dc66f', 'i:1;', 1760413836),
-('laravel_cache_0c827637ba77c621d0421ac8086dc66f:timer', 'i:1760413836;', 1760413836),
-('laravel_cache_2297bcbfb65a8786a1bb3fe3370f5a4b', 'i:1;', 1761120908),
-('laravel_cache_2297bcbfb65a8786a1bb3fe3370f5a4b:timer', 'i:1761120908;', 1761120908),
-('laravel_cache_5505d5bfeb66fb70d59097cd2aa7e20c', 'i:1;', 1761119849),
-('laravel_cache_5505d5bfeb66fb70d59097cd2aa7e20c:timer', 'i:1761119849;', 1761119849),
-('laravel_cache_8f3423da41e0999b3b6b7414dd9ee21e', 'i:1;', 1745857320),
-('laravel_cache_8f3423da41e0999b3b6b7414dd9ee21e:timer', 'i:1745857320;', 1745857320),
-('laravel_cache_c525a5357e97fef8d3db25841c86da1a', 'i:1;', 1761094100),
-('laravel_cache_c525a5357e97fef8d3db25841c86da1a:timer', 'i:1761094100;', 1761094100),
-('laravel_cache_c63cc66b2e823e01eb356f907d7cdfad', 'i:2;', 1750747106),
-('laravel_cache_c63cc66b2e823e01eb356f907d7cdfad:timer', 'i:1750747106;', 1750747106),
-('laravel_cache_e10fd735ad88f21f45ee9e47870c152d', 'i:1;', 1761094142),
-('laravel_cache_e10fd735ad88f21f45ee9e47870c152d:timer', 'i:1761094142;', 1761094142),
-('laravel_cache_fadilfahrozi1945@gmail.com|127.0.0.1', 'i:2;', 1750747106),
-('laravel_cache_fadilfahrozi1945@gmail.com|127.0.0.1:timer', 'i:1750747106;', 1750747106),
-('laravel_cache_user1@gmail.com12345678|127.0.0.1', 'i:1;', 1745857320),
-('laravel_cache_user1@gmail.com12345678|127.0.0.1:timer', 'i:1745857320;', 1745857320);
 
 -- --------------------------------------------------------
 
@@ -101,9 +84,9 @@ INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
 --
 
 CREATE TABLE `cache_locks` (
-  `key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `owner` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `expiration` int NOT NULL
+  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `owner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -113,11 +96,11 @@ CREATE TABLE `cache_locks` (
 --
 
 CREATE TABLE `contacts` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `message` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -141,12 +124,12 @@ INSERT INTO `contacts` (`id`, `name`, `email`, `phone`, `message`, `created_at`,
 --
 
 CREATE TABLE `failed_jobs` (
-  `id` bigint UNSIGNED NOT NULL,
-  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -157,13 +140,13 @@ CREATE TABLE `failed_jobs` (
 --
 
 CREATE TABLE `jobs` (
-  `id` bigint UNSIGNED NOT NULL,
-  `queue` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `attempts` tinyint UNSIGNED NOT NULL,
-  `reserved_at` int UNSIGNED DEFAULT NULL,
-  `available_at` int UNSIGNED NOT NULL,
-  `created_at` int UNSIGNED NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attempts` tinyint(3) UNSIGNED NOT NULL,
+  `reserved_at` int(10) UNSIGNED DEFAULT NULL,
+  `available_at` int(10) UNSIGNED NOT NULL,
+  `created_at` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -173,16 +156,16 @@ CREATE TABLE `jobs` (
 --
 
 CREATE TABLE `job_batches` (
-  `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `total_jobs` int NOT NULL,
-  `pending_jobs` int NOT NULL,
-  `failed_jobs` int NOT NULL,
-  `failed_job_ids` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `options` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `cancelled_at` int DEFAULT NULL,
-  `created_at` int NOT NULL,
-  `finished_at` int DEFAULT NULL
+  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_jobs` int(11) NOT NULL,
+  `pending_jobs` int(11) NOT NULL,
+  `failed_jobs` int(11) NOT NULL,
+  `failed_job_ids` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `options` mediumtext COLLATE utf8mb4_unicode_ci,
+  `cancelled_at` int(11) DEFAULT NULL,
+  `created_at` int(11) NOT NULL,
+  `finished_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -192,9 +175,9 @@ CREATE TABLE `job_batches` (
 --
 
 CREATE TABLE `migrations` (
-  `id` int UNSIGNED NOT NULL,
-  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int NOT NULL
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -215,7 +198,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (13, '2025_10_13_193650_add_capacity_and_facilities_to_rooms_table', 7),
 (14, '2025_10_13_194410_remove_description_and_roomtype_from_rooms_table', 8),
 (15, '2025_10_22_065819_add_nim_to_users_table', 9),
-(16, '2025_10_22_071449_add_nim_to_bookings_table', 10);
+(16, '2025_10_22_071449_add_nim_to_bookings_table', 10),
+(17, '2026_01_21_185453_add_admin_notes_to_bookings_table', 11);
 
 -- --------------------------------------------------------
 
@@ -224,8 +208,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -243,12 +227,12 @@ INSERT INTO `password_reset_tokens` (`email`, `token`, `created_at`) VALUES
 --
 
 CREATE TABLE `personal_access_tokens` (
-  `id` bigint UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tokenable_id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -262,11 +246,11 @@ CREATE TABLE `personal_access_tokens` (
 --
 
 CREATE TABLE `rooms` (
-  `id` bigint UNSIGNED NOT NULL,
-  `room_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `capacity` int DEFAULT NULL,
-  `facilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `room_title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `capacity` int(11) DEFAULT NULL,
+  `facilities` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -294,12 +278,12 @@ INSERT INTO `rooms` (`id`, `room_title`, `image`, `capacity`, `facilities`, `cre
 --
 
 CREATE TABLE `sessions` (
-  `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_id` bigint UNSIGNED DEFAULT NULL,
-  `ip_address` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_agent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_activity` int NOT NULL
+  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_agent` text COLLATE utf8mb4_unicode_ci,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_activity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -307,7 +291,9 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('4pXccv06mYAU827W83l92iwni1EAHK1iEIC4kb1n', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiUnAyWXZiME1MaVBWa09FM3IyUzdHRmJwUmw2Wms1NlZTQmtCWkhFUyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fX0=', 1761121033);
+('1OoJtvTn5Oy7NdRMiue4CNqNldM46gkeIhDO7gVa', 9, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoialZjbkZpODljZFRBTERoMkZrc2xSZTk4RHpsWXhkQlByZGM4MUExdiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ib29raW5nL2RldGFpbC8xOCI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjk7fQ==', 1769029050),
+('M24XCTzjef8gx7KgM664Kp4YBy7qMbpExQt9avbd', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZnpkbFYyazR3T1pmQlZPcFpIa085Y1NEbmlRWTc2alhRTlNObTlxNSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ib29raW5ncyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjU7fQ==', 1769024436),
+('zU7NePtCB3CeZwq6rAbnc6UOmyAvx3nex8vXOQR1', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiRDN4OWplR0EyWjFaMjU2dW1ONWhlblRGSzFRV3ZOdzBWMXJHNWxheCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ib29raW5ncyI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjU7fQ==', 1769028860);
 
 -- --------------------------------------------------------
 
@@ -316,20 +302,20 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 --
 
 CREATE TABLE `users` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nim` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `usertype` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user',
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `usertype` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user',
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `two_factor_secret` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `two_factor_recovery_codes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `two_factor_secret` text COLLATE utf8mb4_unicode_ci,
+  `two_factor_recovery_codes` text COLLATE utf8mb4_unicode_ci,
   `two_factor_confirmed_at` timestamp NULL DEFAULT NULL,
-  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `current_team_id` bigint UNSIGNED DEFAULT NULL,
-  `profile_photo_path` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `current_team_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `profile_photo_path` varchar(2048) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -340,7 +326,10 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `nim`, `email`, `phone`, `usertype`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `two_factor_confirmed_at`, `remember_token`, `current_team_id`, `profile_photo_path`, `created_at`, `updated_at`) VALUES
 (5, 'Admin Fadil', 'A11.2020.123', 'admin@gmail.com', '081967587645', 'admin', NULL, '$2y$12$sAdcC0Yyht.Pv1O16b63sOTL78QeDB.zyxmJFgYzekh9dvxVd0LLm', NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-21 07:13:03', '2025-04-21 07:13:03'),
-(9, 'Muh Fadil Fahrozi', 'a11.2020.12968', 'fadilfahrozi1945@gmail.com', '081930953014', 'user', NULL, '$2y$12$hA4ugtZArq89JJNxzWNaKOjdAba3a4QvKubakmf06CEiX35z1kwyW', NULL, NULL, NULL, NULL, NULL, NULL, '2025-10-22 00:08:46', '2025-10-22 00:08:46');
+(9, 'Muh Fadil Fahrozi', 'A11.2020.12968', 'fadilfahrozi1945@gmail.com', '081930953014', 'user', NULL, '$2y$12$hA4ugtZArq89JJNxzWNaKOjdAba3a4QvKubakmf06CEiX35z1kwyW', NULL, NULL, NULL, NULL, NULL, NULL, '2025-10-22 00:08:46', '2025-10-22 00:08:46'),
+(10, 'arfian syarillah azhar', '123123', 'arvinazhar18@gmail.com', '0550016161613161', 'user', NULL, '$2y$12$euo69BFy3trljdKceZxzbuoixqR27ryCFWxAOzTu7CCiw78LGZ4Pi', NULL, NULL, NULL, NULL, NULL, NULL, '2025-12-11 06:24:14', '2025-12-11 06:24:14'),
+(11, 'Muhamad Lutfil Hakim', '2345', 'shadowoll75@gmail.com', '081934675879', 'user', NULL, '$2y$12$1nLMRex7FwGwN9kGxdO0v.BS.J2L6/EfCiq/WZcN4NL1Pec767i0q', NULL, NULL, NULL, NULL, NULL, NULL, '2025-12-11 08:09:47', '2025-12-11 08:09:47'),
+(12, 'm. jodi munir', '234567', 'kamp72742@gmail.com', '089587476909', 'user', NULL, '$2y$12$.ZAKcnx9rCfxjOA5BBvkUe6192pyb.hNe6kt7syQucexRCrfsf5g6', NULL, NULL, NULL, NULL, NULL, NULL, '2025-12-11 08:23:20', '2025-12-11 08:23:20');
 
 --
 -- Indexes for dumped tables
@@ -440,49 +429,49 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `contacts`
 --
 ALTER TABLE `contacts`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

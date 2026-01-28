@@ -113,11 +113,27 @@ class HomeController extends Controller
 
 public function bookings()
 {
-    $userEmail = Auth::user()->email; // Ambil email user yang sedang login
+    $userEmail = Auth::user()->email;
+    
+    // GANTI ->get() jadi ->paginate(10)
+    $data = Booking::with('room')
+        ->where('email', $userEmail)
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);  // ← INI YANG PENTING!
 
-    $data = Booking::where('email', $userEmail)->get(); // Filter berdasarkan email user
+    // Calculate statistics
+    $totalBookings = Booking::where('email', $userEmail)->count();
+    $approvedCount = Booking::where('email', $userEmail)->where('status', 'Di Setujui')->count();
+    $rejectedCount = Booking::where('email', $userEmail)->where('status', 'Di Tolak')->count();
+    $waitingCount = Booking::where('email', $userEmail)->where('status', 'waiting')->count();
 
-    return view('home.booking', compact('data'));
+    return view('home.booking', compact(
+        'data',
+        'totalBookings',
+        'approvedCount',
+        'rejectedCount',
+        'waitingCount'
+    ));
 }
 
     public function delete_booking($id)
@@ -228,6 +244,104 @@ public function exportJadwalPDF($id)
         ]);
     
     return $pdf->download('jadwal_peminjaman_'.$data->id.'.pdf');
+}
+
+// Tambahkan 3 method ini di bawah method exportJadwalPDF()
+
+/**
+ * Display booking history with filters and pagination
+ */
+public function history(Request $request)
+{
+    $user = Auth::user();
+    
+    $query = Booking::with('room')
+        ->where('email', $user->email);
+
+    // Search filter
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+              ->orWhere('nim', 'like', "%{$search}%")
+              ->orWhere('email', 'like', "%{$search}%")
+              ->orWhereHas('room', function($q) use ($search) {
+                  $q->where('room_title', 'like', "%{$search}%");
+              });
+        });
+    }
+
+    // Status filter
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
+    // Date range filter
+    if ($request->filled('start_date')) {
+        $query->where('start_date', '>=', $request->start_date);
+    }
+
+    if ($request->filled('end_date')) {
+        $query->where('end_date', '<=', $request->end_date);
+    }
+
+    // Get paginated data
+    $data = $query->orderBy('created_at', 'desc')->paginate(10);
+
+    // Calculate statistics
+    $totalBookings = Booking::where('email', $user->email)->count();
+    $approvedCount = Booking::where('email', $user->email)->where('status', 'Di Setujui')->count();
+    $rejectedCount = Booking::where('email', $user->email)->where('status', 'Di Tolak')->count();
+    $waitingCount = Booking::where('email', $user->email)->where('status', 'waiting')->count();
+
+    return view('home.history', compact(
+        'data',
+        'totalBookings',
+        'approvedCount',
+        'rejectedCount',
+        'waitingCount'
+    ));
+}
+
+/**
+ * Get booking detail for modal
+ */
+public function getBookingDetail($id)
+{
+    $user = Auth::user();
+    
+    $booking = Booking::with('room')
+        ->where('id', $id)
+        ->where('email', $user->email)
+        ->firstOrFail();
+
+    return response()->json($booking);
+}
+
+/**
+ * Cancel booking (only for "waiting" status)
+ */
+public function cancelBooking($id)
+{
+    $user = Auth::user();
+    
+    $booking = Booking::where('id', $id)
+        ->where('email', $user->email)
+        ->firstOrFail();
+
+    if ($booking->status !== 'waiting' && $booking->status !== 'Menunggu') {
+        return response()->json([
+            'success' => false,
+            'message' => 'Hanya peminjaman dengan status "Menunggu" yang dapat dibatalkan.'
+        ], 400);
+    }
+
+    $booking->delete();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Peminjaman berhasil dibatalkan.'
+    ]);
 }
 
 
