@@ -17,50 +17,63 @@ use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        // ⚡️ Gunakan NIM sebagai username utama
+        // ===============================
+        // LOGIN PAKAI NIM
+        // ===============================
         Fortify::username('nim');
 
-        // ====== Login pakai NIM ======
+        // ===============================
+        // AUTHENTICATION LOGIC
+        // ===============================
         Fortify::authenticateUsing(function (Request $request) {
             $user = User::where('nim', $request->nim)->first();
 
             if ($user && Hash::check($request->password, $user->password)) {
+
+                // 🔥 PENTING: MATIKAN intended redirect
+                $request->session()->forget('url.intended');
+
                 return $user;
             }
-        });
-        // ==============================
 
-        // Registrasi actions bawaan Fortify
+            return null;
+        });
+
+        // ===============================
+        // ACTIONS
+        // ===============================
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
-        // Rate limiter untuk login
+        // ===============================
+        // RATE LIMITER
+        // ===============================
         RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->nim) . '|' . $request->ip());
+            $throttleKey = Str::transliterate(
+                Str::lower($request->nim) . '|' . $request->ip()
+            );
+
             return Limit::perMinute(5)->by($throttleKey);
         });
 
-        // Rate limiter untuk two-factor auth
         RateLimiter::for('two-factor', function (Request $request) {
-            return Limit::perMinute(5)->by($request->session()->get('login.id'));
+            return Limit::perMinute(5)->by(
+                $request->session()->get('login.id')
+            );
         });
 
-        // Arahkan view login & register
+        // ===============================
+        // AUTH VIEWS
+        // ===============================
         Fortify::loginView(function () {
             return view('auth.login');
         });
@@ -68,5 +81,10 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::registerView(function () {
             return view('auth.register');
         });
+
+        // ===============================
+        // 🔥 PAKSA SEMUA LOGIN KE /home
+        // ===============================
+        config(['fortify.home' => '/home']);
     }
 }

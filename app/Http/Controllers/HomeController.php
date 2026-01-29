@@ -111,21 +111,49 @@ class HomeController extends Controller
         return redirect()->back()->with('message', 'Pesan berhasil dikirim!');
     }
 
-public function bookings()
+public function bookings(Request $request)
 {
-    $userEmail = Auth::user()->email;
-    
-    // GANTI ->get() jadi ->paginate(10)
-    $data = Booking::with('room')
-        ->where('email', $userEmail)
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);  // ← INI YANG PENTING!
+    $user = Auth::user();
 
-    // Calculate statistics
-    $totalBookings = Booking::where('email', $userEmail)->count();
-    $approvedCount = Booking::where('email', $userEmail)->where('status', 'Di Setujui')->count();
-    $rejectedCount = Booking::where('email', $userEmail)->where('status', 'Di Tolak')->count();
-    $waitingCount = Booking::where('email', $userEmail)->where('status', 'waiting')->count();
+    $query = Booking::with('room')
+        ->where('email', $user->email);
+
+    // Search
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function ($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+              ->orWhere('nim', 'like', "%{$search}%")
+              ->orWhere('email', 'like', "%{$search}%")
+              ->orWhereHas('room', function ($q) use ($search) {
+                  $q->where('room_title', 'like', "%{$search}%");
+              });
+        });
+    }
+
+    // Status
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
+    // Date
+    if ($request->filled('start_date')) {
+        $query->whereDate('start_date', '>=', $request->start_date);
+    }
+
+    if ($request->filled('end_date')) {
+        $query->whereDate('end_date', '<=', $request->end_date);
+    }
+
+    $data = $query
+        ->orderBy('created_at', 'desc')
+        ->paginate(10)
+        ->withQueryString();
+
+    $totalBookings = Booking::where('email', $user->email)->count();
+    $approvedCount = Booking::where('email', $user->email)->where('status', 'Di Setujui')->count();
+    $rejectedCount = Booking::where('email', $user->email)->where('status', 'Di Tolak')->count();
+    $waitingCount  = Booking::where('email', $user->email)->where('status', 'waiting')->count();
 
     return view('home.booking', compact(
         'data',
@@ -135,6 +163,7 @@ public function bookings()
         'waitingCount'
     ));
 }
+
 
     public function delete_booking($id)
     {
@@ -246,7 +275,7 @@ public function exportJadwalPDF($id)
     return $pdf->download('jadwal_peminjaman_'.$data->id.'.pdf');
 }
 
-// Tambahkan 3 method ini di bawah method exportJadwalPDF()
+
 
 /**
  * Display booking history with filters and pagination
@@ -254,45 +283,52 @@ public function exportJadwalPDF($id)
 public function history(Request $request)
 {
     $user = Auth::user();
-    
+
     $query = Booking::with('room')
         ->where('email', $user->email);
 
-    // Search filter
+    // Search
     if ($request->filled('search')) {
         $search = $request->search;
-        $query->where(function($q) use ($search) {
+        $query->where(function ($q) use ($search) {
             $q->where('name', 'like', "%{$search}%")
               ->orWhere('nim', 'like', "%{$search}%")
-              ->orWhere('email', 'like', "%{$search}%")
-              ->orWhereHas('room', function($q) use ($search) {
+              ->orWhereHas('room', function ($q) use ($search) {
                   $q->where('room_title', 'like', "%{$search}%");
               });
         });
     }
 
-    // Status filter
+    // Status
     if ($request->filled('status')) {
-        $query->where('status', $request->status);
+        if ($request->status === 'Menunggu') {
+            $query->whereIn('status', ['waiting', 'Menunggu']);
+        } else {
+            $query->where('status', $request->status);
+        }
     }
 
-    // Date range filter
-    if ($request->filled('start_date')) {
-        $query->where('start_date', '>=', $request->start_date);
+    // Date range
+    if ($request->filled('start_date') && $request->filled('end_date')) {
+        $query->where(function ($q) use ($request) {
+            $q->whereBetween('start_date', [$request->start_date, $request->end_date])
+              ->orWhereBetween('end_date', [$request->start_date, $request->end_date])
+              ->orWhere(function ($q2) use ($request) {
+                  $q2->where('start_date', '<=', $request->start_date)
+                     ->where('end_date', '>=', $request->end_date);
+              });
+        });
     }
 
-    if ($request->filled('end_date')) {
-        $query->where('end_date', '<=', $request->end_date);
-    }
+    $data = $query
+        ->orderBy('created_at', 'desc')
+        ->paginate(10)
+        ->withQueryString();
 
-    // Get paginated data
-    $data = $query->orderBy('created_at', 'desc')->paginate(10);
-
-    // Calculate statistics
     $totalBookings = Booking::where('email', $user->email)->count();
     $approvedCount = Booking::where('email', $user->email)->where('status', 'Di Setujui')->count();
     $rejectedCount = Booking::where('email', $user->email)->where('status', 'Di Tolak')->count();
-    $waitingCount = Booking::where('email', $user->email)->where('status', 'waiting')->count();
+    $waitingCount  = Booking::where('email', $user->email)->where('status', 'waiting')->count();
 
     return view('home.history', compact(
         'data',
@@ -302,6 +338,7 @@ public function history(Request $request)
         'waitingCount'
     ));
 }
+
 
 /**
  * Get booking detail for modal
