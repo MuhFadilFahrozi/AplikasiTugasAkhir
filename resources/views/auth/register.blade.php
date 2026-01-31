@@ -16,6 +16,7 @@
                     type="text"
                     name="name"
                     :value="old('name')"
+                    placeholder="Contoh: Jokowi Prabroro"
                     required autofocus autocomplete="name" />
             </div>
 
@@ -23,17 +24,16 @@
             <div class="mt-4">
                 <x-label for="nim" value="{{ __('NIM atau NPP') }}" />
                 <x-input id="nim" class="block mt-1 w-full"
-                type="text"
-                name="nim"
-                :value="old('nim')"
-                required
-                autocomplete="nim"
-                pattern="[A-Z0-9.]+"
-                title="NIM harus huruf besar, angka, dan titik"
-                oninput="this.value = this.value.toUpperCase()"
-            />
-
-
+                    type="text"
+                    name="nim"
+                    :value="old('nim')"
+                    placeholder="Contoh: A11.2021.12345 atau NPP.123456"
+                    required
+                    autocomplete="nim"
+                    pattern="[A-Z0-9.]+"
+                    title="NIM harus huruf besar, angka, dan titik"
+                    oninput="this.value = this.value.toUpperCase()"
+                />
             </div>
 
             {{-- Email  --}}
@@ -43,6 +43,7 @@
                     type="email"
                     name="email"
                     :value="old('email')"
+                    placeholder="Contoh: ahmad.rizki@example.com"
                     autocomplete="email" />
             </div>
 
@@ -53,6 +54,7 @@
                     type="text"
                     name="phone"
                     :value="old('phone')"
+                    placeholder="Contoh: 08123456789"
                     required autocomplete="phone" />
             </div>
 
@@ -62,6 +64,7 @@
                 <x-input id="password" class="block mt-1 w-full"
                     type="password"
                     name="password"
+                    placeholder="Minimal 8 karakter"
                     required autocomplete="new-password" />
             </div>
 
@@ -71,6 +74,7 @@
                 <x-input id="password_confirmation" class="block mt-1 w-full"
                     type="password"
                     name="password_confirmation"
+                    placeholder="Masukkan ulang password"
                     required autocomplete="new-password" />
             </div>
 

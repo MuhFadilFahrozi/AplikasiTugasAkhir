@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 28, 2026 at 12:14 PM
+-- Generation Time: Jan 29, 2026 at 01:19 PM
 -- Server version: 5.7.39
 -- PHP Version: 8.3.19
 
@@ -54,16 +54,17 @@ INSERT INTO `bookings` (`id`, `room_id`, `name`, `nim`, `email`, `phone`, `parti
 (13, '18', 'user1', NULL, 'user1@gmail.com', '123123432', NULL, 'Di Setujui', NULL, '2025-10-09', '2025-10-09', '11:09', '13:09', '2025-10-08 21:09:45', '2026-01-21 12:32:31'),
 (14, '9', 'user1', NULL, 'user1@gmail.com', '123123432', 50, 'waiting', NULL, '2025-10-14', '2025-10-15', '03:29', '05:29', '2025-10-13 13:29:12', '2025-10-13 13:29:12'),
 (15, '9', 'user1', NULL, 'user1@gmail.com', '123123432', 50, 'waiting', NULL, '2025-10-16', '2025-10-16', '11:33', '13:33', '2025-10-13 20:33:38', '2025-10-13 20:33:38'),
-(16, '9', 'user2', NULL, 'user2@gmail.com', '1233214321', 44, 'Di Tolak', NULL, '2025-10-24', '2025-10-24', '10:47', '12:47', '2025-10-13 20:47:39', '2025-10-13 20:54:05'),
 (17, '9', 'user1', NULL, 'user1@gmail.com', '123123432', 35, 'Di Setujui', NULL, '2025-10-17', '2025-10-17', '10:59', '12:59', '2025-10-13 20:59:47', '2025-10-13 21:00:35'),
-(18, '9', 'Muh Fadil Fahrozi', 'a11.2020.12968', 'fadilfahrozi1945@gmail.com', '081930953014', 40, 'waiting', NULL, '2025-10-23', '2025-10-23', '15:19', '17:19', '2025-10-22 00:19:35', '2025-10-22 00:19:35'),
+(18, '9', 'Muh Fadil Fahrozi', 'a11.2020.12968', 'fadilfahrozi1945@gmail.com', '081930953014', 40, 'Di Tolak', 'test catatan 2', '2025-10-23', '2025-10-23', '15:19', '17:19', '2025-10-22 00:19:35', '2026-01-28 06:50:50'),
 (20, '13', 'arfian syarillah azhar', '123123', 'arvinazhar18@gmail.com', '0550016161613161', 30, 'waiting', NULL, '2025-12-12', '2025-12-12', '07:40', '14:50', '2025-12-11 06:28:19', '2025-12-11 06:28:19'),
 (21, '9', 'Muhamad Lutfil Hakim', '2345', 'shadowoll75@gmail.com', '081934675879', 45, 'waiting', NULL, '2025-12-25', '2025-12-27', '08:11', '22:12', '2025-12-11 08:12:16', '2025-12-11 08:12:16'),
 (22, '12', 'm. jodi munir', '234567', 'kamp72742@gmail.com', '089587476909', 12, 'Di Tolak', 'test', '2025-12-20', '2025-12-20', '01:31', '03:31', '2025-12-11 08:31:28', '2026-01-21 13:48:36'),
 (23, '12', 'm. jodi munir', '234567', 'kamp72742@gmail.com', '089587476909', 20, 'Di Setujui', NULL, '2025-12-18', '2025-12-19', '01:33', '02:33', '2025-12-11 08:33:28', '2026-01-21 13:08:18'),
 (25, '13', 'Muh Fadil Fahrozi', 'A11.2020.12968', 'fadilfahrozi1945@gmail.com', '081930953014', 21, 'Di Tolak', NULL, '2026-01-22', '2026-01-24', '07:24', '08:24', '2026-01-21 10:24:57', '2026-01-21 13:38:38'),
 (26, '11', 'Muh Fadil Fahrozi', 'A11.2020.12968', 'fadilfahrozi1945@gmail.com', '081930953014', 20, 'Di Tolak', 'test tolak', '2026-01-23', '2026-01-23', '08:49', '09:49', '2026-01-21 13:49:17', '2026-01-21 13:54:15'),
-(27, '18', 'Muh Fadil Fahrozi', 'A11.2020.12968', 'fadilfahrozi1945@gmail.com', '081930953014', 100, 'Di Setujui', NULL, '2026-01-24', '2026-01-24', '07:53', '09:53', '2026-01-21 13:53:53', '2026-01-21 13:54:20');
+(27, '13', 'Akun Testing', 'A11.8080', 'akuntesting@gmail.com', '089876543211', 10, 'waiting', NULL, '2026-01-29', '2026-01-29', '13:43', '17:43', '2026-01-29 00:44:33', '2026-01-29 00:44:33'),
+(28, '13', 'Akun Testing', 'A11.8080', 'akuntesting@gmail.com', '089876543211', 9, 'Di Setujui', NULL, '2026-01-30', '2026-01-30', '11:44', '13:45', '2026-01-29 00:45:19', '2026-01-29 00:47:45'),
+(29, '14', 'Akun Testing', 'A11.8080', 'akuntesting@gmail.com', '089876543211', 15, 'Di Tolak', 'test penolakan oleh admin', '2026-01-30', '2026-01-30', '14:46', '15:46', '2026-01-29 00:46:32', '2026-01-29 00:47:32');
 
 -- --------------------------------------------------------
 
@@ -76,6 +77,18 @@ CREATE TABLE `cache` (
   `value` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `cache`
+--
+
+INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
+('laravel_cache_2297bcbfb65a8786a1bb3fe3370f5a4b', 'i:1;', 1769668394),
+('laravel_cache_2297bcbfb65a8786a1bb3fe3370f5a4b:timer', 'i:1769668394;', 1769668394),
+('laravel_cache_26fcfd01c1699dde099ad3118a1850b9', 'i:1;', 1769672500),
+('laravel_cache_26fcfd01c1699dde099ad3118a1850b9:timer', 'i:1769672500;', 1769672500),
+('laravel_cache_5505d5bfeb66fb70d59097cd2aa7e20c', 'i:1;', 1769672883),
+('laravel_cache_5505d5bfeb66fb70d59097cd2aa7e20c:timer', 'i:1769672883;', 1769672883);
 
 -- --------------------------------------------------------
 
@@ -291,9 +304,15 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('1OoJtvTn5Oy7NdRMiue4CNqNldM46gkeIhDO7gVa', 9, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoialZjbkZpODljZFRBTERoMkZrc2xSZTk4RHpsWXhkQlByZGM4MUExdiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ib29raW5nL2RldGFpbC8xOCI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjk7fQ==', 1769029050),
-('M24XCTzjef8gx7KgM664Kp4YBy7qMbpExQt9avbd', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZnpkbFYyazR3T1pmQlZPcFpIa085Y1NEbmlRWTc2alhRTlNObTlxNSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ib29raW5ncyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjU7fQ==', 1769024436),
-('zU7NePtCB3CeZwq6rAbnc6UOmyAvx3nex8vXOQR1', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiRDN4OWplR0EyWjFaMjU2dW1ONWhlblRGSzFRV3ZOdzBWMXJHNWxheCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ib29raW5ncyI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjU7fQ==', 1769028860);
+('5gopwJE92sN3Sg0SOMEWod7cHx7nt47PiEeP4VRC', NULL, '127.0.0.1', 'WhatsApp/2.2587.9 W', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiREp5NWJXUlNQOG9OSDdVUnBLcGFPWGJ4WVY2RFc5NktGYmZ2RjNTNyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTQ6Imh0dHA6Ly9zdHJhaWdodGZhY2VkbHktb2NlYW5saWtlLWplcm9tZS5uZ3Jvay1mcmVlLmRldiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1769668238),
+('anGj1sLnw58Ca6BZ9sdOw59NLOZfbj520FWy0jJj', NULL, '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiTjhqZlNTOWFhTlZxaEpNc21TTXJCRTNWWXNPQlJPWXludllBeEQzdyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTQ6Imh0dHA6Ly9zdHJhaWdodGZhY2VkbHktb2NlYW5saWtlLWplcm9tZS5uZ3Jvay1mcmVlLmRldiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1769669565),
+('BrPWU4z8fvioZvvJspj2yhJvwaFrKjXjq548ooFD', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoicmhjdm9XN2Y2QjhqR1p0VU5JaVdoTEtuTmxpZ3B4cGtteE5zTG0waiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTQ6Imh0dHA6Ly9zdHJhaWdodGZhY2VkbHktb2NlYW5saWtlLWplcm9tZS5uZ3Jvay1mcmVlLmRldiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1769669659),
+('EXExkkMRv9ix701KZWSP2DimLJ0PU8xCzbtH8gXG', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiU1JIa2thUzRjcWdIMGZhU0I4TThnQ1pQeXd1eFU4NjVIaHZTZ0tySyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTQ6Imh0dHA6Ly9zdHJhaWdodGZhY2VkbHktb2NlYW5saWtlLWplcm9tZS5uZ3Jvay1mcmVlLmRldiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1769690807),
+('MPJeolHIwBflbG8n6sDiCxN0iBJ4kYL6gLUOn42o', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiOThybHVaaGdyc0tqYVRJZlRZSE5RNkY4d3BVM3Z0Nk5ad05OUkN4MSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ib29raW5ncyI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjU7fQ==', 1769673434),
+('Q2JUeoEaC3XuCplJ3DU20Dci9vnUPxmktFP743tV', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiSjRvUWhDa01BNXZ5UmNLTWlKSnF5d05JcjVjZ1hpVlgyaFU5cjlScyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTQ6Imh0dHA6Ly9zdHJhaWdodGZhY2VkbHktb2NlYW5saWtlLWplcm9tZS5uZ3Jvay1mcmVlLmRldiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1769673511),
+('UqlyTRTBagTVskYQ2obLtl3pDDCQZz2RPTRPFLzw', 13, '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiZkI4Y0JFUGNNZEROdHlMNjdRTm53elplOGpPeURSM0Rzb2htZ2tibSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTQ6Imh0dHA6Ly9zdHJhaWdodGZhY2VkbHktb2NlYW5saWtlLWplcm9tZS5uZ3Jvay1mcmVlLmRldiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjA6e31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxMzt9', 1769673112),
+('XNkL1I07h7fqAypwyU2Fmbgtswm5RlkGWUktw3Zo', 9, '127.0.0.1', 'Mozilla/5.0 (Linux; U; Android 11; in-id; RMX1931 Build/RKQ1.200928.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/70.0.3538.80 Mobile Safari/537.36 HeyTapBrowser/45.7.5.9', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoibG1CcWNUVzRIdVppMnhEUFhpQlBRSUI2SEdRdlBJcFB5UUVzd0FXeCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTk6Imh0dHA6Ly9zdHJhaWdodGZhY2VkbHktb2NlYW5saWtlLWplcm9tZS5uZ3Jvay1mcmVlLmRldi9ob21lIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6OTt9', 1769669397),
+('zNcdmx9Thr6ts2523mkGUSTx552GxHwCm5WRlv2R', NULL, '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiV1NQOUs3ckRTUzhLdGVtd2hOTGpaS1BvUTR1Z2VrTUk5UWRQOTlDUyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NTQ6Imh0dHA6Ly9zdHJhaWdodGZhY2VkbHktb2NlYW5saWtlLWplcm9tZS5uZ3Jvay1mcmVlLmRldiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1769669618);
 
 -- --------------------------------------------------------
 
@@ -329,7 +348,8 @@ INSERT INTO `users` (`id`, `name`, `nim`, `email`, `phone`, `usertype`, `email_v
 (9, 'Muh Fadil Fahrozi', 'A11.2020.12968', 'fadilfahrozi1945@gmail.com', '081930953014', 'user', NULL, '$2y$12$hA4ugtZArq89JJNxzWNaKOjdAba3a4QvKubakmf06CEiX35z1kwyW', NULL, NULL, NULL, NULL, NULL, NULL, '2025-10-22 00:08:46', '2025-10-22 00:08:46'),
 (10, 'arfian syarillah azhar', '123123', 'arvinazhar18@gmail.com', '0550016161613161', 'user', NULL, '$2y$12$euo69BFy3trljdKceZxzbuoixqR27ryCFWxAOzTu7CCiw78LGZ4Pi', NULL, NULL, NULL, NULL, NULL, NULL, '2025-12-11 06:24:14', '2025-12-11 06:24:14'),
 (11, 'Muhamad Lutfil Hakim', '2345', 'shadowoll75@gmail.com', '081934675879', 'user', NULL, '$2y$12$1nLMRex7FwGwN9kGxdO0v.BS.J2L6/EfCiq/WZcN4NL1Pec767i0q', NULL, NULL, NULL, NULL, NULL, NULL, '2025-12-11 08:09:47', '2025-12-11 08:09:47'),
-(12, 'm. jodi munir', '234567', 'kamp72742@gmail.com', '089587476909', 'user', NULL, '$2y$12$.ZAKcnx9rCfxjOA5BBvkUe6192pyb.hNe6kt7syQucexRCrfsf5g6', NULL, NULL, NULL, NULL, NULL, NULL, '2025-12-11 08:23:20', '2025-12-11 08:23:20');
+(12, 'm. jodi munir', '234567', 'kamp72742@gmail.com', '089587476909', 'user', NULL, '$2y$12$.ZAKcnx9rCfxjOA5BBvkUe6192pyb.hNe6kt7syQucexRCrfsf5g6', NULL, NULL, NULL, NULL, NULL, NULL, '2025-12-11 08:23:20', '2025-12-11 08:23:20'),
+(13, 'Akun Testing', 'A11.8080', 'akuntesting@gmail.com', '089876543211', 'user', NULL, '$2y$12$o4E6Muy0AN6rLiPGVOvmauuaRrwOShe874KoaMZdkXp4224Qmntp2', NULL, NULL, NULL, NULL, NULL, NULL, '2026-01-28 23:48:52', '2026-01-28 23:48:52');
 
 --
 -- Indexes for dumped tables
@@ -429,7 +449,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `contacts`
@@ -471,7 +491,7 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

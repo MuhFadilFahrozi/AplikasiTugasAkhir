@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Http\Middleware\Admin;
+use Illuminate\Support\Facades\URL; // <--- 1. Tambahkan ini di atas
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,7 +20,9 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {
-        //
+{
+    if (request()->header('x-forwarded-proto') === 'https') {
+        URL::forceScheme('https');
     }
+}
 }

@@ -20,20 +20,24 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input): User
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'nim' => ['required', 'regex:/^[A-Z0-9]+$/', 'unique:users,nim'],
-            'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users'],
-            'phone' => ['required'],
-            'password' => $this->passwordRules(),
-            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
-        ])->validate();
+    'name' => ['required', 'string', 'max:255'],
+    'nim' => [
+        'required', 
+        'string',
+        // Tambahin flag 'i' (case-insensitive) di regex biar nggak error 
+        // kalau ada huruf kecil yang lolos dari frontend
+        'regex:/^[A-Z0-9.]+$/i', 
+        'unique:users,nim'
+    ],
+    // ... field lainnya
+])->validate();
 
-        return User::create([
-        'name' => $input['name'],
-        'nim' => strtoupper(trim($input['nim'])),
-        'email' => $input['email'] ?? null,
-        'phone' => $input['phone'],
-        'password' => Hash::make($input['password']),
-    ]);
+return User::create([
+    'name' => $input['name'],
+    'nim' => strtoupper(trim($input['nim'])), // DI SINI KITA PAKSA JADI GEDE
+    'email' => $input['email'],
+    'phone' => $input['phone'],
+    'password' => Hash::make($input['password']),
+]);
     }
 }

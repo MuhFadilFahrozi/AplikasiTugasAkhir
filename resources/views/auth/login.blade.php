@@ -4,80 +4,97 @@
             <x-authentication-card-logo />
         </x-slot>
 
+        {{-- Header --}}
+        <div class="mb-6 text-center">
+            <h2 class="text-2xl font-bold text-gray-800">Selamat Datang</h2>
+            <p class="text-sm text-gray-500 mt-1">Silakan masuk ke akun Anda</p>
+        </div>
+
+        {{-- Validation Errors --}}
         <x-validation-errors class="mb-4" />
 
+        {{-- Status Message --}}
         @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600">
+            <div class="mb-4 font-medium text-sm text-green-600 bg-green-50 p-3 rounded-lg border border-green-200">
                 {{ session('status') }}
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login') }}">
+        {{-- Login Form --}}
+        <form method="POST" action="{{ route('login') }}" class="space-y-5">
             @csrf
 
-            {{-- NIM --}}
+            {{-- NIM / NPP --}}
             <div>
-                <x-label for="nim" value="{{ __('NIM atau NPP') }}" />
-                <x-input id="nim" class="block mt-1 w-full"
+                <x-label for="nim" value="{{ __('NIM atau NPP') }}" class="font-semibold" />
+                <x-input 
+                    id="nim" 
+                    class="block mt-2 w-full px-4 py-2.5 rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                     type="text"
                     name="nim"
                     :value="old('nim')"
                     required
+                    autofocus
                     autocomplete="nim"
                     pattern="[A-Z0-9.]+"
                     title="NIM harus huruf besar, angka, dan titik"
                     oninput="this.value = this.value.toUpperCase()"
+                    placeholder="Contoh: A11.2023.12345"
                 />
+                <p class="mt-2 text-xs text-gray-500">*Gunakan huruf kapital</p>
             </div>
 
             {{-- Password --}}
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full"
+            <div class="mt-3">
+                <div class="flex justify-between items-center">
+                    <x-label for="password" value="{{ __('Password') }}" class="font-semibold" />
+                    @if (Route::has('password.request'))
+                        <a class="text-xs text-indigo-600 hover:text-indigo-800 font-medium transition" 
+                           href="{{ route('password.request') }}">
+                            {{ __('Lupa password?') }}
+                        </a>
+                    @endif
+                </div>
+                <x-input 
+                    id="password" 
+                    class="block mt-2 w-full px-4 py-2.5 rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                     type="password"
                     name="password"
-                    required autocomplete="current-password" />
+                    required 
+                    autocomplete="current-password"
+                    placeholder="••••••••"
+                />
             </div>
 
             {{-- Remember Me --}}
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox"
-                        class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
-                        name="remember">
-                    <span class="ms-2 text-sm text-gray-600">{{ __('Ingat saya') }}</span>
-                </label>
+            <div class="flex items-center mb-4">
+                
             </div>
 
-            {{-- Submit & Forgot Password --}}
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md
-                        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        href="{{ route('password.request') }}">
-                        {{ __('Lupa password?') }}
-                    </a>
-                @endif
-
-                <x-button class="ms-4">
+            {{-- Submit Button --}}
+            <div class="pt-1">
+                <x-button class="w-full justify-center py-3 text-base font-semibold">
                     {{ __('Masuk') }}
                 </x-button>
             </div>
         </form>
 
-        {{-- ✅ REGISTER SECTION - DESIGN KEREN --}}
-        <div class="mt-6 pt-6 border-t border-gray-200">
-            <div class="bg-gray-50 rounded-lg p-4 text-center">
-                <p class="text-sm text-gray-700 mb-3">
-                    <svg class="inline-block w-5 h-5 mr-1 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
-                    </svg>
-                    Belum punya akun?
-                </p>
-                <a href="{{ route('register') }}" 
-                   class="inline-block w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition duration-200 shadow-sm hover:shadow-md">
-                    Daftar Akun Baru
-                </a>
+
+        {{-- Register Section --}}
+        <div>
+            <div >
+                <div class="text-center">
+                    <div class="inline-flex items-center justify-center  ">
+                        
+                    </div>
+                    <p class="text-sm text-gray-700 font-medium mb-4">
+                        Belum punya akun?
+                    </p>
+                    <a href="{{ route('register') }}" 
+                       class="inline-block w-full px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5">
+                        Daftar Akun Baru
+                    </a>
+                </div>
             </div>
         </div>
 
